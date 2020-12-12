@@ -1,5 +1,6 @@
 {
   "name": "catch-my-eggs",
+  "homepage": "https://pratikh.github.io/catch-my-eggs",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
