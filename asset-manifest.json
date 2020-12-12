@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/catch-my-eggs/static/css/main.74abd985.chunk.css",
-    "main.js": "/catch-my-eggs/static/js/main.511b84ae.chunk.js",
-    "main.js.map": "/catch-my-eggs/static/js/main.511b84ae.chunk.js.map",
+    "main.js": "/catch-my-eggs/static/js/main.865a2948.chunk.js",
+    "main.js.map": "/catch-my-eggs/static/js/main.865a2948.chunk.js.map",
     "runtime-main.js": "/catch-my-eggs/static/js/runtime-main.1e751c9f.js",
     "runtime-main.js.map": "/catch-my-eggs/static/js/runtime-main.1e751c9f.js.map",
     "static/js/2.b43cbba0.chunk.js": "/catch-my-eggs/static/js/2.b43cbba0.chunk.js",
@@ -12,12 +12,12 @@
     "index.html": "/catch-my-eggs/index.html",
     "static/css/main.74abd985.chunk.css.map": "/catch-my-eggs/static/css/main.74abd985.chunk.css.map",
     "static/js/2.b43cbba0.chunk.js.LICENSE.txt": "/catch-my-eggs/static/js/2.b43cbba0.chunk.js.LICENSE.txt",
-    "static/media/farm.ac8ca787.jpg": "/catch-my-eggs/static/media/farm.ac8ca787.jpg"
+    "static/media/farm.14bde527.jpg": "/catch-my-eggs/static/media/farm.14bde527.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.1e751c9f.js",
     "static/js/2.b43cbba0.chunk.js",
     "static/css/main.74abd985.chunk.css",
-    "static/js/main.511b84ae.chunk.js"
+    "static/js/main.865a2948.chunk.js"
   ]
 }
