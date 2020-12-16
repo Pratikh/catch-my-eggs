@@ -1,7 +1,8 @@
 import './App.css';
+import GameComponent from './components/gameComponent'
 import image from './assets/farm.jpg';
 
-function App() {
+ function App() {
   const { availHeight ,availWidth} = window.screen;
   return (
     <div className="App">
@@ -9,6 +10,7 @@ function App() {
         width:availWidth,
         height:availHeight,
       }}></img>
+      <GameComponent></GameComponent>
     </div>
   );
 }
