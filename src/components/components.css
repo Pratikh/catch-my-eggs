@@ -1,11 +1,13 @@
 .hands {
     position: absolute;
     bottom: 0%;
+    width: 200px;
+    height: 100px;
 }
 
 .chicken {
     position: absolute;
     top: 0%;
     width: 100px;
-    height: 100px;
+    height: 120px;
 }

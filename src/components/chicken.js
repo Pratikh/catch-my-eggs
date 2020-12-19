@@ -1,5 +1,5 @@
 import './components.css';
-import chickenGif from '../assets/giphy.gif';
+import chickenGif from '../assets/chicken.png';
 
  function Chicken() {
   return (

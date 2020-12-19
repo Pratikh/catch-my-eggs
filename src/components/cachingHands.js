@@ -1,9 +1,11 @@
 import './components.css';
+import handImage from '../assets/hand.png';
+
 
  function Hands() {
   return (
     <div className="hands">
-        Catching... 🤞 
+      <img src={handImage} alt={'Background'} className="hands"></img>
     </div>
   );
 }
