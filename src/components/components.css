@@ -11,3 +11,16 @@
     width: 100px;
     height: 120px;
 }
+
+.mirror {
+    transform: scaleX(-1);
+}
+
+.no-mirror {
+    transform: scaleX(1);
+}
+
+@keyframes left-right-move {
+    from { left: 0%;}
+    to { left: 90%;}
+}
