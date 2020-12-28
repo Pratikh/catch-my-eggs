@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/catch-my-eggs/static/css/main.1cbe70ea.chunk.css",
-    "main.js": "/catch-my-eggs/static/js/main.fc2fa77c.chunk.js",
-    "main.js.map": "/catch-my-eggs/static/js/main.fc2fa77c.chunk.js.map",
-    "runtime-main.js": "/catch-my-eggs/static/js/runtime-main.1873b0a4.js",
-    "runtime-main.js.map": "/catch-my-eggs/static/js/runtime-main.1873b0a4.js.map",
-    "static/js/2.27d8c18a.chunk.js": "/catch-my-eggs/static/js/2.27d8c18a.chunk.js",
-    "static/js/2.27d8c18a.chunk.js.map": "/catch-my-eggs/static/js/2.27d8c18a.chunk.js.map",
-    "static/js/3.6157c0fd.chunk.js": "/catch-my-eggs/static/js/3.6157c0fd.chunk.js",
-    "static/js/3.6157c0fd.chunk.js.map": "/catch-my-eggs/static/js/3.6157c0fd.chunk.js.map",
+    "main.css": "/catch-my-eggs/static/css/main.eb906d79.chunk.css",
+    "main.js": "/catch-my-eggs/static/js/main.b5ac49ce.chunk.js",
+    "main.js.map": "/catch-my-eggs/static/js/main.b5ac49ce.chunk.js.map",
+    "runtime-main.js": "/catch-my-eggs/static/js/runtime-main.ccdfb344.js",
+    "runtime-main.js.map": "/catch-my-eggs/static/js/runtime-main.ccdfb344.js.map",
+    "static/js/2.68d9e0df.chunk.js": "/catch-my-eggs/static/js/2.68d9e0df.chunk.js",
+    "static/js/2.68d9e0df.chunk.js.map": "/catch-my-eggs/static/js/2.68d9e0df.chunk.js.map",
+    "static/js/3.8f6990cd.chunk.js": "/catch-my-eggs/static/js/3.8f6990cd.chunk.js",
+    "static/js/3.8f6990cd.chunk.js.map": "/catch-my-eggs/static/js/3.8f6990cd.chunk.js.map",
     "index.html": "/catch-my-eggs/index.html",
-    "static/css/main.1cbe70ea.chunk.css.map": "/catch-my-eggs/static/css/main.1cbe70ea.chunk.css.map",
-    "static/js/2.27d8c18a.chunk.js.LICENSE.txt": "/catch-my-eggs/static/js/2.27d8c18a.chunk.js.LICENSE.txt",
+    "static/css/main.eb906d79.chunk.css.map": "/catch-my-eggs/static/css/main.eb906d79.chunk.css.map",
+    "static/js/2.68d9e0df.chunk.js.LICENSE.txt": "/catch-my-eggs/static/js/2.68d9e0df.chunk.js.LICENSE.txt",
     "static/media/chicken.765de344.png": "/catch-my-eggs/static/media/chicken.765de344.png",
     "static/media/farm.14bde527.jpg": "/catch-my-eggs/static/media/farm.14bde527.jpg",
     "static/media/hand.6f397da1.png": "/catch-my-eggs/static/media/hand.6f397da1.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.1873b0a4.js",
-    "static/js/2.27d8c18a.chunk.js",
-    "static/css/main.1cbe70ea.chunk.css",
-    "static/js/main.fc2fa77c.chunk.js"
+    "static/js/runtime-main.ccdfb344.js",
+    "static/js/2.68d9e0df.chunk.js",
+    "static/css/main.eb906d79.chunk.css",
+    "static/js/main.b5ac49ce.chunk.js"
   ]
 }
