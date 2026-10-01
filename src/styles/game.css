@@ -1,0 +1,830 @@
+/* ==========================================================================
+   Catch Me If You Can — game styles
+   Layout: card shell (HUD / playfield / touch controls / footer).
+   The playfield scales a fixed 1000x700 world; nothing outside it is scaled.
+   ========================================================================== */
+
+:root {
+  --sky: #8fd4f2;
+  --grass: #6fbf5f;
+  --grass-dark: #4f9c44;
+  --card: #ffffff;
+  --ink: #2f3a34;
+  --ink-soft: #5c6b63;
+  --accent: #ff8a3d;
+  --accent-dark: #e06a1c;
+  --accent-2: #ffc93c;
+  --danger: #e5484d;
+  --focus: #1f6feb;
+  --radius-lg: 22px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+  --shadow-card: 0 18px 45px rgba(24, 55, 35, 0.28);
+  --shadow-soft: 0 4px 12px rgba(24, 55, 35, 0.14);
+  --font: 'Baloo 2', 'Trebuchet MS', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--ink);
+  /* Sky-over-meadow gradient; the photographic farm field sits inside the
+     playfield so it scales with the game world instead of the viewport. */
+  background: linear-gradient(180deg, #8fd4f2 0%, #bfe8f7 45%, #cfeeb8 100%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* The game owns the viewport: no page-level scrolling on any device. */
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#root {
+  height: 100%;
+}
+
+/* ---------------------------------------------------------------- shell -- */
+
+.game-shell {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Safe-area padding keeps the HUD clear of notches and home indicators. */
+  padding: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right))
+    max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+}
+
+.game-card {
+  width: min(1180px, 100%);
+  height: min(880px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ------------------------------------------------------------------ HUD -- */
+
+.hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  flex: 0 0 auto;
+}
+
+.hud__group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.hud__group--right {
+  justify-content: flex-end;
+}
+
+.hud__stat {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.05;
+  position: relative;
+}
+
+.hud__label {
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+
+.hud__value {
+  font-size: clamp(1.05rem, 2.4vw, 1.6rem);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.hud__badge {
+  position: absolute;
+  top: -6px;
+  right: -34px;
+  background: var(--accent-2);
+  color: #6b4a00;
+  font-size: 0.58rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 999px;
+  animation: badge-pop 1.1s ease-in-out infinite;
+}
+
+.hud__title {
+  margin: 0;
+  font-size: clamp(0.95rem, 2.1vw, 1.4rem);
+  font-weight: 800;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 0 1 auto;
+}
+
+.hud__combo {
+  font-weight: 800;
+  color: var(--accent-dark);
+  background: #fff2e2;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 0.9rem;
+  animation: badge-pop 0.9s ease-in-out infinite;
+  white-space: nowrap;
+}
+
+.hud__lives {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.hud__hearts {
+  display: flex;
+  gap: 2px;
+}
+
+.hud__heart {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+.hud__heart svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.hud__heart.is-lost {
+  opacity: 0.5;
+  transform: scale(0.85);
+}
+
+.hud__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.hud__buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.icon-button {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 2px solid #e2e8e3;
+  background: #fff;
+  border-radius: 12px;
+  cursor: pointer;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  transition: transform 0.14s ease, background 0.14s ease, border-color 0.14s ease;
+  touch-action: manipulation;
+}
+
+.icon-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+.icon-button:hover {
+  background: #f2f7f3;
+  border-color: #cfe0d3;
+  transform: translateY(-1px);
+}
+
+.icon-button:active {
+  transform: translateY(0) scale(0.94);
+}
+
+/* ------------------------------------------------------------ playfield -- */
+
+.playfield {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  background-color: #9fdcf5;
+  /* The cartoon farm field, scaled to cover the playfield. */
+  background-image: url('../assets/farm.jpg');
+  background-size: cover;
+  background-position: center 62%;
+  touch-action: none; /* no page scrolling / pinch while playing */
+  user-select: none;
+  cursor: grab;
+  isolation: isolate;
+}
+
+.playfield:active {
+  cursor: grabbing;
+}
+
+.playfield.is-shaking {
+  animation: field-shake 0.4s ease-out;
+}
+
+/* The fixed-size world is centred and uniformly scaled to fit the playfield.
+   The scale factor is computed in JS (see `Game.jsx`) and applied inline. */
+.world {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.world__chicken,
+.world__egg,
+.world__basket {
+  position: absolute;
+  pointer-events: none;
+}
+
+.world__chicken {
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 6px 6px rgba(0, 0, 0, 0.22));
+  /* Wings flap via a subtle CSS animation, independent of the RAF loop. */
+  animation: chicken-bob 1.6s ease-in-out infinite;
+}
+
+.world__basket {
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 8px 7px rgba(0, 0, 0, 0.26));
+}
+
+.world__egg {
+  filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.22));
+}
+
+.world__egg.is-golden {
+  filter: drop-shadow(0 0 10px rgba(255, 201, 60, 0.95));
+}
+
+.art {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ------------------------------------------------------------- effects -- */
+
+.effect {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.effect--score {
+  font-weight: 800;
+  font-size: 32px;
+  color: #fff;
+  /* Dark outline + soft glow so the number stays legible over both the bright
+     grass and the sky. */
+  -webkit-text-stroke: 5px #1f7a2e;
+  paint-order: stroke fill;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+.effect--score.is-golden {
+  -webkit-text-stroke-color: #b26b00;
+}
+
+.effect--combo {
+  font-weight: 800;
+  font-size: 42px;
+  color: #fff;
+  -webkit-text-stroke: 6px var(--accent-dark);
+  paint-order: stroke fill;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  white-space: nowrap;
+}
+
+.effect--sparkle {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, var(--accent-2) 55%, rgba(255, 201, 60, 0) 72%);
+}
+
+.effect--sparkle.is-golden {
+  background: radial-gradient(circle, #fffbe6 0%, #ffd23f 55%, rgba(255, 210, 63, 0) 72%);
+}
+
+.effect--splat {
+  width: 64px;
+  height: 64px;
+}
+
+.art--splat {
+  opacity: 0.95;
+}
+
+/* ------------------------------------------------------------- overlays -- */
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 14px;
+  z-index: 20;
+  background: rgba(20, 45, 30, 0.42);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  animation: overlay-in 0.24s ease-out;
+  overflow-y: auto;
+}
+
+.overlay--start {
+  background: rgba(20, 45, 30, 0.5);
+}
+
+.overlay__card {
+  background: var(--card);
+  border-radius: 20px;
+  padding: clamp(16px, 3vw, 30px);
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+  animation: card-in 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  margin: auto;
+}
+
+.overlay__card--compact {
+  max-width: 380px;
+}
+
+.overlay__emoji {
+  font-size: clamp(2.4rem, 7vw, 3.4rem);
+  line-height: 1;
+  margin-bottom: 4px;
+  animation: chicken-bob 1.8s ease-in-out infinite;
+}
+
+.overlay__title {
+  margin: 4px 0 8px;
+  font-size: clamp(1.4rem, 4.2vw, 2.1rem);
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.overlay__title--sm {
+  font-size: clamp(1.2rem, 3.4vw, 1.6rem);
+}
+
+.overlay__subtitle {
+  margin: 0 0 18px;
+  color: var(--ink-soft);
+  font-size: clamp(0.86rem, 2.2vw, 1rem);
+  line-height: 1.45;
+}
+
+.overlay__ribbon {
+  display: inline-block;
+  margin: 0 0 12px;
+  background: var(--accent-2);
+  color: #6b4a00;
+  font-weight: 800;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  animation: badge-pop 1.2s ease-in-out infinite;
+}
+
+.overlay__hint {
+  margin: 16px 0 6px;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.overlay__actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+/* -------------------------------------------------------------- buttons -- */
+
+.btn {
+  font-family: inherit;
+  font-weight: 800;
+  font-size: clamp(0.9rem, 2.3vw, 1.05rem);
+  letter-spacing: 0.04em;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 14px 30px;
+  cursor: pointer;
+  transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.14s ease;
+  touch-action: manipulation;
+  min-height: 48px;
+}
+
+.btn--primary {
+  background: linear-gradient(180deg, #ffa55c 0%, var(--accent) 55%, var(--accent-dark) 100%);
+  color: #fff;
+  box-shadow: 0 5px 0 #c85a12, 0 10px 20px rgba(224, 106, 28, 0.35);
+}
+
+.btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 #c85a12, 0 14px 24px rgba(224, 106, 28, 0.4);
+}
+
+.btn--primary:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #c85a12, 0 6px 12px rgba(224, 106, 28, 0.3);
+}
+
+.btn--ghost {
+  background: #eef4ef;
+  color: var(--ink);
+  box-shadow: 0 4px 0 #d3e0d6;
+}
+
+.btn--ghost:hover {
+  background: #e2ece4;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #d3e0d6;
+}
+
+.btn--ghost:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #d3e0d6;
+}
+
+.link-button {
+  margin-top: 6px;
+  background: none;
+  border: none;
+  color: var(--ink-soft);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.link-button:hover {
+  color: var(--ink);
+  background: #f1f6f2;
+}
+
+/* Visible keyboard focus everywhere. */
+.btn:focus-visible,
+.icon-button:focus-visible,
+.link-button:focus-visible,
+.touch-button:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+/* ----------------------------------------------------------- how to play -- */
+
+.how-to {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0 4px;
+  text-align: left;
+}
+
+.how-to__col {
+  flex: 1 1 0;
+  background: #f4f8f4;
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+}
+
+.how-to__col h3 {
+  margin: 0 0 6px;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-dark);
+}
+
+.how-to__col ul {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+kbd {
+  display: inline-block;
+  font-family: inherit;
+  font-size: 0.76rem;
+  font-weight: 800;
+  background: #fff;
+  border: 1.5px solid #cfd9d1;
+  border-bottom-width: 3px;
+  border-radius: 6px;
+  padding: 1px 6px;
+  margin: 0 1px;
+  color: var(--ink);
+}
+
+/* --------------------------------------------------------------- results -- */
+
+.results {
+  margin: 12px 0 20px;
+  display: grid;
+  gap: 8px;
+}
+
+.results__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  background: #f4f8f4;
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+}
+
+.results__row dt {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+
+.results__row dd {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------- touch controls -- */
+
+.touch-controls {
+  display: none; /* shown on coarse-pointer / small screens via media query */
+  gap: 14px;
+  flex: 0 0 auto;
+}
+
+.touch-button {
+  flex: 1 1 0;
+  min-height: 68px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--accent-dark);
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  transition: transform 0.1s ease, background 0.1s ease;
+  touch-action: none;
+}
+
+.touch-button svg {
+  width: 34px;
+  height: 34px;
+}
+
+.touch-button.is-pressed {
+  background: var(--accent-2);
+  transform: scale(0.96);
+}
+
+/* ---------------------------------------------------------------- footer -- */
+
+.game-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 10px;
+  font-size: 0.74rem;
+  color: #33503f;
+  flex: 0 0 auto;
+  min-height: 22px;
+}
+
+.game-footer__hint {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-wrap: wrap;
+}
+
+.game-footer__status {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------ animations -- */
+
+@keyframes chicken-bob {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateY(0) rotate(-1.2deg);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-5px) rotate(1.2deg);
+  }
+}
+
+/* The overlay emoji reuses a simpler bob (no translate(-50%) needed). */
+.overlay__emoji {
+  animation-name: emoji-bob;
+}
+
+@keyframes emoji-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(3deg);
+  }
+}
+
+@keyframes badge-pop {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes field-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-6px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+
+@keyframes overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* --------------------------------------------------------------- mobile -- */
+
+/* Show on-screen controls on touch devices and narrow viewports. */
+@media (pointer: coarse), (max-width: 720px) {
+  .touch-controls {
+    display: flex;
+  }
+}
+
+@media (pointer: coarse) {
+  /* Extra room for thumbs; the description text is redundant on touch. */
+  .game-footer__hint {
+    display: none;
+  }
+  .game-footer {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 720px) {
+  .game-shell {
+    padding: max(6px, env(safe-area-inset-top)) 6px max(6px, env(safe-area-inset-bottom)) 6px;
+  }
+
+  .hud {
+    padding: 6px 10px;
+    gap: 6px;
+    border-radius: var(--radius-md);
+  }
+
+  /* The title is decorative; on phones the score, lives and controls are the
+     priority and the title would otherwise overlap the hearts. */
+  .hud__title {
+    display: none;
+  }
+
+  .hud__group {
+    gap: 12px;
+  }
+
+  .hud__value {
+    font-size: 1.15rem;
+  }
+
+  .hud__heart {
+    width: 15px;
+    height: 15px;
+  }
+
+  .icon-button {
+    width: 34px;
+    height: 34px;
+  }
+
+  .playfield {
+    border-radius: var(--radius-md);
+  }
+
+  .how-to {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .game-footer {
+    font-size: 0.7rem;
+  }
+}
+
+/* Very short landscape phones: shrink the chrome so the field stays big. */
+@media (max-height: 480px) and (orientation: landscape) {
+  .hud__title {
+    display: none;
+  }
+
+  .game-footer {
+    display: none;
+  }
+
+  .touch-button {
+    min-height: 52px;
+  }
+}
+
+/* Respect users who prefer less motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

@@ -1,36 +1,51 @@
-# This is a basic workflow to help you get started with Actions
+# Builds the game and publishes it to GitHub Pages.
+#
+# The site is served from https://pratikh.github.io/catch-my-eggs/, so the Vite
+# build uses `/catch-my-eggs/` as its base path (see vite.config.mjs).
 
 name: CI
 
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events but only for the main branch
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
+  # Allows a manual deploy from the Actions tab.
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
-  Building-app-and-deploying-to-gihub-pages:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2.3.1 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
-          ref: ${{ github.head_ref }}
 
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
 
-      - name: Installing packages
-        run: npm install
+      - name: Install packages
+        run: npm ci
 
-      - name: Building
+      - name: Test
+        run: npm test
+
+      - name: Build
         run: npm run build
 
+      # Only publish from `main`; pull requests just verify the build.
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-          BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: build # The folder the action should deploy.
-          CLEAN: true # Automatically remove deleted files from the deploy branch
+          token: ${{ secrets.TOKEN }}
+          branch: gh-pages
+          folder: build
+          clean: true
